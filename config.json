@@ -1,0 +1,9 @@
+{
+    "nome" : "Sys Sapucaian's",
+    "ClientNome": "Pizzaria Sapucaian's",
+    "icone" : "logo.png",
+    "isOpen": true,
+    "waitingTime": "30 min",
+    "timeDelivery": "30 min",
+    "banner": "banner.jpg"
+}
