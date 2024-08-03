@@ -1,10 +1,13 @@
+import dotenv from 'dotenv';
 import express from 'express';
 import http from 'http';
 import { Server } from 'socket.io';
 import url from "url";
 import path from 'path';
 import cors from 'cors';
+dotenv.config();
 const PORT = process.env.PORT || 4000;
+const PEDIDOS_URL = process.env.PEDIDOS_URL || 'http://localhost:8080';
 const app = express();
 app.use(express.json());
 const caminhoAtual = url.fileURLToPath(import.meta.url);
@@ -23,4 +26,4 @@ function run() {
         console.log(`Servidor iniciado na porta: ${PORT}`);
     });
 }
-export { run, io, app };
+export { run, io, app, PEDIDOS_URL };

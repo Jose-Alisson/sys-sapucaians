@@ -3,10 +3,9 @@ import multer from 'multer'
 import path from 'path'
 import { fileURLToPath } from 'url'
 
-
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'uploads/');
+        cb(null, '/main/data');
     },
     filename: (req, file, cb) => {
         cb(null, file.originalname);
@@ -24,7 +23,8 @@ app.post('/upload', upload.single('file'), (req, res) => {
 
 // Rota para fazer download de arquivos
 app.get('/download/:filename', (req, res) => {
-    const file = path.join(path.dirname(fileURLToPath(import.meta.url)), '../../../../', 'uploads', req.params.filename);
+    // const __filename = path.dirname(fileURLToPath(import.meta.url))
+    const file = path.join('C://', '/main/data', req.params.filename);
     res.download(file);
 });
 

@@ -1,13 +1,13 @@
 import axios from "axios";
 import { Order } from "../../model/order.model.js";
-import { io } from "../../server.js";
+import { io, PEDIDOS_URL } from "../../server.js";
 
 let date: Date = new Date()
 
 let orders: Order[] = []
 let newOrders: Order[] = []
 
-const URL = `http://localhost:8080/order`
+const URL = `${PEDIDOS_URL}/order`
 
 function load() {
     axios.get(`${URL}/`).then((response) => {

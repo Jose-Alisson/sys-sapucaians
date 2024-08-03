@@ -1,9 +1,9 @@
 import axios from "axios";
-import { io } from "../../server.js";
+import { io, PEDIDOS_URL } from "../../server.js";
 let date = new Date();
 let orders = [];
 let newOrders = [];
-const URL = `http://localhost:8080/order`;
+const URL = `${PEDIDOS_URL}/order`;
 function load() {
     axios.get(`${URL}/`).then((response) => {
         orders = response.data;

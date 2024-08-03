@@ -1,3 +1,4 @@
+import dotenv from 'dotenv';
 import express from 'express'
 import http from 'http'
 import { Server } from 'socket.io'
@@ -5,7 +6,11 @@ import url from "url";
 import path from 'path'
 import cors, { CorsOptions } from 'cors'
 
+dotenv.config()
+
 const PORT = process.env.PORT || 4000
+const PEDIDOS_URL = process.env.PEDIDOS_URL || 'pedidos'
+
 const app = express()
 
 app.use(express.json());
@@ -33,6 +38,6 @@ function run(): void {
     })
 }
 
-export { run, io, app }
+export { run, io, app, PEDIDOS_URL }
 
 
