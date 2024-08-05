@@ -14,6 +14,10 @@ app.post("/order/add", (req, res) => {
 app.get("/order/", (req, res) => {
     res.send(getOrders());
 });
+app.post("/order/load", (req, res) => {
+    loadByDate(req.query.date);
+    res.send(getOrders());
+});
 function registrarOrder(socket, io) {
     socket.emit('orders', getOrders());
     socket.emit('new-orders', getNewOrders());

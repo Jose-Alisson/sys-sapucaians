@@ -18,7 +18,7 @@ app.post('/upload', upload.single('file'), (req, res) => {
 // Rota para fazer download de arquivos
 app.get('/download/:filename', (req, res) => {
     // const __filename = path.dirname(fileURLToPath(import.meta.url))
-    const file = path.join('C://', '/main/data', req.params.filename);
+    const file = path.join('./data', req.params.filename);
     res.download(file);
 });
 function registrarFile() { }

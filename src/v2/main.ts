@@ -14,6 +14,6 @@ io.on('connection', (socket) => {
     registrarFile()
 })
 
-const dataAtual = new Date().toLocaleDateString().split("/");
+// const dataAtual = new Date().toLocaleDateString().split("/");
 
-loadByDate(`${dataAtual[2]}-${dataAtual[1]}-${dataAtual[0]}`)
+// loadByDate(`${dataAtual[2]}-${dataAtual[1]}-${dataAtual[0]}`)

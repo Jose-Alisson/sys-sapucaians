@@ -7,7 +7,7 @@ import path from 'path';
 import cors from 'cors';
 dotenv.config();
 const PORT = process.env.PORT || 4000;
-const PEDIDOS_URL = process.env.PEDIDOS_URL || 'http://localhost:8080';
+const PEDIDOS_URL = process.env.PEDIDOS_URL || 'pedidos';
 const app = express();
 app.use(express.json());
 const caminhoAtual = url.fileURLToPath(import.meta.url);
