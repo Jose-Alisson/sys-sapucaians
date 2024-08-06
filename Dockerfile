@@ -7,7 +7,7 @@ VOLUME ["/main/data"]
 RUN mkdir -p /main/node_modules && mkdir -p /main/data && chown -R node:node /main/data
 WORKDIR /main
 COPY package*.json ./
-RUN npm install && install -g typescript 
+RUN npm install && npm install -g typescript 
 COPY . .
 RUN tsc
 
