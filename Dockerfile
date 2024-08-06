@@ -1,6 +1,6 @@
 FROM node:20
 
-ENV PORT=4000
+ENV PORT=4040
 ENV PEDIDOS_URL=url
 
 VOLUME ["/main/data"]
@@ -11,7 +11,6 @@ COPY package*.json ./
 RUN npm install
 COPY . .
 
-
-EXPOSE 4000
+EXPOSE 4040
 
 CMD ["npm", "start"]
