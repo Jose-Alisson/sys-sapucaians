@@ -1,6 +1,5 @@
 FROM node:20
 
-ENV PORT=4000
 ENV PEDIDOS_URL=url
 
 VOLUME ["/main/data"]
@@ -8,10 +7,10 @@ VOLUME ["/main/data"]
 RUN mkdir -p /main/node_modules && mkdir -p /main/data && chown -R node:node /main/data
 WORKDIR /main
 COPY package*.json ./
-RUN npm install
+RUN npm install && install typescript -g
 COPY . .
+RUN tsc
 
-
-EXPOSE 4000
+EXPOSE 4040
 
 CMD ["npm", "start"]
