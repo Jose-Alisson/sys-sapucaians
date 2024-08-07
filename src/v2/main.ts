@@ -12,6 +12,8 @@ io.on('connection', (socket) => {
     registrarImpressora(socket, io)
     registrarOrder(socket, io)
     registrarFile()
+
+    console.log(socket.id)
 })
 
 // const dataAtual = new Date().toLocaleDateString().split("/");
