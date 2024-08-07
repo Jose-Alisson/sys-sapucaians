@@ -6,7 +6,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 let config;
 async function loadConfig() {
-    const filePath = path.join(__dirname, "../../../../", 'config.json');
+    const filePath = path.join(__dirname, "../../../../public", 'config.json');
     const data = await readFile(filePath, 'utf8');
     return JSON.parse(data);
 }
