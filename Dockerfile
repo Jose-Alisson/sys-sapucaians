@@ -3,12 +3,15 @@ FROM node:20
 ENV PEDIDOS_URL=url
 
 VOLUME ["/main/data"]
-
+VOLUME [ "/main/hidratation"]
+RUN mkdir -p /main/hidratation/public
 RUN mkdir -p /main/node_modules && mkdir -p /main/data && chown -R node:node /main/data
 WORKDIR /main
 COPY package*.json ./
 RUN npm install && npm install -g typescript 
 COPY . .
+COPY hidratation/public/ public
+COPY hidratation/ .
 RUN tsc
 
 EXPOSE 4040

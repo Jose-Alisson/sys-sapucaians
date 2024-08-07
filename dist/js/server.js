@@ -19,7 +19,8 @@ const io = new Server(httpServer, {
     cors: {
         origin: "*",
         methods: ["GET", "POST"]
-    }
+    },
+    transports: ['websocket']
 });
 function run() {
     httpServer.listen(PORT, () => {
