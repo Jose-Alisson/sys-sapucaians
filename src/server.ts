@@ -30,7 +30,6 @@ const io = new Server(httpServer, {
         origin: "*",
         methods: ["GET", "POST"]
     },
-    path: 'socket'
 })
 
 function run(): void {
