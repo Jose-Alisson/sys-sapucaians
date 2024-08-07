@@ -29,7 +29,8 @@ const io = new Server(httpServer, {
     cors: {
         origin: "*",
         methods: ["GET", "POST"]
-    }
+    },
+    path: 'socket'
 })
 
 function run(): void {
