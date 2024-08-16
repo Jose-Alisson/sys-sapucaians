@@ -1,13 +1,16 @@
-import { getNewOrders, getOrders, loadByDate, removerNewOrder, save } from "./order.js";
+import { currentDate, getNewOrders, getOrders, loadByDate, removerNewOrder, save } from "./order.js";
 import { app } from "../../server.js";
 app.put("/order/update", (req, res) => {
-    save(req.body);
+    let body = req.body;
+    let date = body.dateCreation;
+    body.dateCreation = `${date[0]}-${(parseInt(date[1])).toString().padStart(2, '0')}-${parseInt(date[2]).toString().padStart(2, '0')}T${parseInt(parseInt(date[3]).toString().padStart(2, '0')).toString().padStart(2, '0')}:${parseInt(date[4]).toString().padStart(2, '0')}:${parseInt(date[5]).toString().padStart(2, '0')}.${date[6]}`;
+    save(body);
     res.send();
 });
 app.post("/order/add", (req, res) => {
     let body = req.body;
-    let date = new Date(body?.dateCreation[0], body?.dateCreation[1] - 1, body?.dateCreation[2], body?.dateCreation[3], body?.dateCreation[4], body?.dateCreation[5], Math.floor(body?.dateCreation[6] / 1e6));
-    body.dateCreation = date;
+    let date = body.dateCreation;
+    body.dateCreation = `${date[0]}-${(parseInt(date[1])).toString().padStart(2, '0')}-${parseInt(date[2]).toString().padStart(2, '0')}T${parseInt(parseInt(date[3]).toString().padStart(2, '0')).toString().padStart(2, '0')}:${parseInt(date[4]).toString().padStart(2, '0')}:${parseInt(date[5]).toString().padStart(2, '0')}.${date[6]}`;
     save(body);
     res.send("");
 });
@@ -18,14 +21,25 @@ app.post("/order/load", (req, res) => {
     loadByDate(req.query.date);
     res.send(getOrders());
 });
+app.post("/order/reload", (req, res) => {
+    loadByDate(currentDate);
+    res.send();
+});
 function registrarOrder(socket, io) {
     socket.emit('orders', getOrders());
+    socket.emit('currentDate', currentDate);
     socket.emit('new-orders', getNewOrders());
     socket.on('carregar-por-data', (date) => {
         loadByDate(date);
     });
     socket.on('remover-new-order', (id) => {
         removerNewOrder(id);
+    });
+    socket.on('carregar-orders', () => {
+        socket.emit('orders', getOrders());
+    });
+    socket.on('carregar-data', () => {
+        socket.emit('currentDate', currentDate);
     });
 }
 export { registrarOrder };

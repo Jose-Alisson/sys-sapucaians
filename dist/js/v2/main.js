@@ -9,7 +9,6 @@ io.on('connection', (socket) => {
     registrarImpressora(socket, io);
     registrarOrder(socket, io);
     registrarFile();
-    console.log(socket.id);
 });
 // const dataAtual = new Date().toLocaleDateString().split("/");
 // loadByDate(`${dataAtual[2]}-${dataAtual[1]}-${dataAtual[0]}`)

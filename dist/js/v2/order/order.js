@@ -1,36 +1,35 @@
 import axios from "axios";
 import { io, PEDIDOS_URL } from "../../server.js";
-let date = new Date();
+let currentDate = '';
 let orders = [];
 let newOrders = [];
 const URL = `${PEDIDOS_URL}/order`;
-function load() {
-    axios.get(`${URL}/`).then((response) => {
-        orders = response.data;
-    }).catch(err => {
-        console.log(err);
-    });
-}
 function loadByDate(date) {
     axios.get(`${URL}/byDate`, { params: { date: date } }).then((response) => {
+        currentDate = date;
         orders = response.data;
         io.emit('orders', orders);
+        io.emit('currentDate', currentDate);
     }).catch(err => {
         console.log(err);
     });
 }
 function save(order) {
+    let equals = order.dateCreation.split('T')[0] === currentDate;
     let index = orders.findIndex(o => o.id === order.id);
     if (index != -1) {
         order.numPrint = orders[index].numPrint;
         orders[index] = order;
+        io.emit("orders", orders);
     }
     else {
         newOrders.push(order);
-        orders.push(order);
+        if (equals) {
+            orders.push(order);
+            io.emit("orders", orders);
+        }
         io.emit('new-orders', newOrders);
     }
-    io.emit("orders", orders);
 }
 function getOrders() {
     return orders;
@@ -59,4 +58,4 @@ function removerNewOrder(id) {
         io.emit('new-orders', newOrders);
     }
 }
-export { save, getOrders, load, icrementPrint, loadByDate, removerNewOrder, getNewOrders };
+export { save, getOrders, currentDate, icrementPrint, loadByDate, removerNewOrder, getNewOrders };

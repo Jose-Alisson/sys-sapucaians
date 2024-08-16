@@ -9,7 +9,7 @@ import cors, { CorsOptions } from 'cors'
 dotenv.config()
 
 const PORT = process.env.PORT || 4040
-const PEDIDOS_URL = process.env.PEDIDOS_URL || 'pedidos'
+const PEDIDOS_URL = process.env.API_PEDIDOS || 'pedidos'
 
 const app = express()
 

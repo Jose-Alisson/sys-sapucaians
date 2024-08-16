@@ -2,56 +2,54 @@ import axios from "axios";
 import { Order } from "../../model/order.model.js";
 import { io, PEDIDOS_URL } from "../../server.js";
 
-let date: Date = new Date()
+let currentDate = ''
 
 let orders: Order[] = []
 let newOrders: Order[] = []
 
 const URL = `${PEDIDOS_URL}/order`
 
-function load() {
-    axios.get(`${URL}/`).then((response) => {
-        orders = response.data
-    }).catch(err => {
-        console.log(err)
-    })
-}
-
-
-function loadByDate(date: string){
-    axios.get(`${URL}/byDate`, {params : {date: date}}).then((response) => {
+function loadByDate(date: string) {
+    axios.get(`${URL}/byDate`, { params: { date: date } }).then((response) => {
+        currentDate = date
         orders = response.data
         io.emit('orders', orders)
+        io.emit('currentDate', currentDate)
     }).catch(err => {
         console.log(err)
     })
 }
 
 function save(order: Order) {
+    let equals = order.dateCreation.split('T')[0] === currentDate
+
     let index = orders.findIndex(o => o.id === order.id)
+
     if (index != -1) {
         order.numPrint = orders[index].numPrint
-        orders[index] = order
+        orders[index] = order 
+        io.emit("orders", orders)
     } else {
         newOrders.push(order)
-        orders.push(order)
+        if(equals){
+            orders.push(order)
+            io.emit("orders", orders)
+        }
         io.emit('new-orders', newOrders)
     }
-    io.emit("orders", orders)
 }
 
-function getOrders(){
+function getOrders() {
     return orders
 }
 
-function getNewOrders(){
+function getNewOrders() {
     return newOrders
 }
 
 function icrementPrint(id: number) {
     let index = orders.findIndex(o => o.id === id)
     if (index != -1) {
-
         console.log(index)
         if (orders[index].numPrint) {
             orders[index].numPrint++
@@ -59,7 +57,7 @@ function icrementPrint(id: number) {
             orders[index].numPrint = 0
             orders[index].numPrint++
         }
-        
+
         io.emit('orders', orders)
     }
 }
@@ -71,4 +69,4 @@ function removerNewOrder(id: number) {
         io.emit('new-orders', newOrders)
     }
 }
-export { save, getOrders, load, icrementPrint, loadByDate, removerNewOrder, getNewOrders };
+export { save, getOrders, currentDate, icrementPrint, loadByDate, removerNewOrder, getNewOrders };
